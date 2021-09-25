@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCleanArchitectureAccount.OIDC", "OpenCleanArchitectureAccount.OIDC\OpenCleanArchitectureAccount.OIDC.csproj", "{CDEA6E59-F8B8-4684-B368-752D9D4DCF0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDEA6E59-F8B8-4684-B368-752D9D4DCF0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDEA6E59-F8B8-4684-B368-752D9D4DCF0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDEA6E59-F8B8-4684-B368-752D9D4DCF0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDEA6E59-F8B8-4684-B368-752D9D4DCF0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C70224C-E475-4B0A-A7EE-D911FDDEE663}
+	EndGlobalSection
+EndGlobal
