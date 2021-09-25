@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
 	<PackageReference Include="IdentityServer4" Version="4.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCleanArchitectureAccount.Abstraction\OpenCleanArchitectureAccount.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

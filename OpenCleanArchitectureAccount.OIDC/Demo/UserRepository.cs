@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OpenCleanArchitectureAccount.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OpenCleanArchitectureAccount.OIDC.Demo
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository<CustomUser>
     {        
         // some dummy data. Replce this with your user persistence. 
         private readonly List<CustomUser> _users = new List<CustomUser>
@@ -24,26 +25,21 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
             },
         };
 
-        public bool ValidateCredentials(string username, string password)
+        public Task<CustomUser> ValidateCredentials(string username, string password)
         {
-            bool result = false;
-            CustomUser user = FindByUsername(username);
-            if (user != null)
-            {
-                result = user.Password.Equals(password);
-            }
-            return result;
+            return Task.FromResult(_users.FirstOrDefault(x => x.UserName == username && x.Password == password));
         }
 
-        public CustomUser FindBySubjectId(string subjectId)
+        public Task<CustomUser> FindBySubjectId(string subjectId)
         {
-            return _users.FirstOrDefault(x => x.SubjectId == subjectId);
+            return Task.FromResult(_users.FirstOrDefault(x => x.SubjectId == subjectId));
         }
 
-        public CustomUser FindByUsername(string username)
+        public Task<CustomUser> FindByUsername(string username)
         {
-            return _users.FirstOrDefault(x => x.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+            return Task.FromResult(_users.FirstOrDefault(x => x.UserName.Equals(username, StringComparison.OrdinalIgnoreCase)));
         }
+
     }
 
 }

@@ -2,6 +2,7 @@
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
+using OpenCleanArchitectureAccount.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,15 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
     public class CustomProfileService : IProfileService
     {
         protected readonly ILogger Logger;
-        protected readonly IUserRepository _userRepository;
+        protected readonly IUserRepository<CustomUser> _userRepository;
 
-        public CustomProfileService(IUserRepository userRepository, ILogger<CustomProfileService> logger)
+        public CustomProfileService(IUserRepository<CustomUser> userRepository, ILogger<CustomProfileService> logger)
         {
             _userRepository = userRepository;
             Logger = logger;
         }
 
-        public Task GetProfileDataAsync(ProfileDataRequestContext context)
+        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var sub = context.Subject.GetSubjectId();
 
@@ -31,7 +32,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                 context.RequestedClaimTypes,
                 context.Caller);
 
-            var user = _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
+            CustomUser user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
 
             List<Claim> claims = new List<Claim>
             {
@@ -41,8 +42,6 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                 new Claim("email", user.Email)
             };
             context.IssuedClaims = claims;
-            
-            return Task.CompletedTask;
         }
 
         public Task IsActiveAsync(IsActiveContext context)

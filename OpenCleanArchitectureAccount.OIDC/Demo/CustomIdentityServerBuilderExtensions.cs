@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OpenCleanArchitectureAccount.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
     {
         public static IIdentityServerBuilder AddCustomUserStore(this IIdentityServerBuilder builder)
         {
-            builder.Services.AddSingleton<IUserRepository, UserRepository>();
+            builder.Services.AddSingleton<IUserRepository<CustomUser>, UserRepository>();
             builder.AddProfileService<CustomProfileService>();
             builder.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>();
 

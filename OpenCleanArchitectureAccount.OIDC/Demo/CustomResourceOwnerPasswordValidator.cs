@@ -1,5 +1,6 @@
 ﻿using IdentityModel;
 using IdentityServer4.Validation;
+using OpenCleanArchitectureAccount.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,20 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
 {
     public class CustomResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository<CustomUser> _userRepository;
 
-        public CustomResourceOwnerPasswordValidator(IUserRepository userRepository)
+        public CustomResourceOwnerPasswordValidator(IUserRepository<CustomUser> userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
+        public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            if (_userRepository.ValidateCredentials(context.UserName, context.Password))
+            CustomUser user = await _userRepository.ValidateCredentials(context.UserName, context.Password);
+            if (user != null)
             {
-                var user = _userRepository.FindByUsername(context.UserName);
                 context.Result = new GrantValidationResult(user.SubjectId, OidcConstants.AuthenticationMethods.Password);
             }
-
-            return Task.CompletedTask;
         }
     }
 }

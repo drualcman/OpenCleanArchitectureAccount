@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using OpenCleanArchitectureAccount.OIDC.Demo;
 using System;
 using System.Collections.Generic;
@@ -37,11 +36,7 @@ namespace OpenCleanArchitectureAccount.OIDC
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddCustomUserStore();
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OpenCleanArchitectureAccount.OIDC", Version = "v1" });
-            });
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,12 +45,11 @@ namespace OpenCleanArchitectureAccount.OIDC
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenCleanArchitectureAccount.OIDC v1"));
             }
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseIdentityServer();
@@ -63,11 +57,11 @@ namespace OpenCleanArchitectureAccount.OIDC
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("<a href='.well-known/openid-configuration'>Discovery document</a>");
-                });
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    await context.Response.WriteAsync("<a href='.well-known/openid-configuration'>Discovery document</a>");
+                //});
             });
         }
     }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenCleanArchitectureAccount.Interfaces;
 using OpenCleanArchitectureAccount.OIDC.Attributes;
 using OpenCleanArchitectureAccount.OIDC.Demo;
 using OpenCleanArchitectureAccount.OIDC.Extensions;
@@ -31,22 +32,20 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly CustomProfileService _account;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository<CustomUser> _userRepository;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         protected readonly ILogger Logger;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
-            IHttpContextAccessor httpContextAccessor,
             IAuthenticationSchemeProvider schemeProvider,
-            IUserRepository userRepository, ILogger<CustomProfileService> logger)
+            IUserRepository<CustomUser> userRepository, 
+            ILogger<CustomProfileService> logger)
         {
             Logger = logger;
             _interaction = interaction;
             _userRepository = userRepository;
             _schemeProvider = schemeProvider;
-            _account = new CustomProfileService(userRepository, logger);
         }
 
         /// <summary>
@@ -107,10 +106,9 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
             if (ModelState.IsValid)
             {
                 // validate username/password against in-memory store
-                if (_userRepository.ValidateCredentials(model.Username, model.Password))
+                CustomUser user = await _userRepository.ValidateCredentials(model.Username, model.Password);
+                if (user != null)
                 {
-                    CustomUser user = _userRepository.FindByUsername(model.Username);
-
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
                     AuthenticationProperties props = null;
