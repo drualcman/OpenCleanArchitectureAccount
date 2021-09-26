@@ -1,3 +1,4 @@
+using IdentityServer4;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
@@ -9,10 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using OpenCleanArchitectureAccount.OIDC.Demo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace OpenCleanArchitectureAccount.OIDC
@@ -35,6 +38,17 @@ namespace OpenCleanArchitectureAccount.OIDC
                 .AddInMemoryClients(Config.Clients)
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddCustomUserStore();
+#if !DEBUG
+            //create a signing key
+            byte[] pemBytes = Convert.FromBase64String("MHcCAQEEIB2EbKgBGbRxWTtWheDgaNw3P7TsSsMoWloU4NHO3MWYoAoGCCqGSM49AwEHoUQDQgAEVGVVEnzMZnTv/8Jk0/WlFs9poYA7XqI7ITHH78OPenhGS02GBjXMWV/akdaWBgIyUP8/86kJ2KRyuHR4c/jIuA==");
+            ECDsa ecdsa = ECDsa.Create();
+            ecdsa.ImportECPrivateKey(pemBytes, out _);
+            ECDsaSecurityKey securityKey = new ECDsaSecurityKey(ecdsa) { KeyId = "ef208a01ef43406f833b267023766550" };
+            serverBuilder.AddSigningCredential(securityKey, IdentityServerConstants.ECDsaSigningAlgorithm.ES256);
+            serverBuilder.AddSigningCredential(new RsaSecurityKey(RSA.Create()), IdentityServerConstants.RsaSigningAlgorithm.RS256);
+#else
+            serverBuilder.AddDeveloperSigningCredential();
+#endif
 
             services.AddControllersWithViews();
         }

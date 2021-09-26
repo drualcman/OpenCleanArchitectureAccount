@@ -3,6 +3,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using OpenCleanArchitectureAccount.Interfaces;
+using OpenCleanArchitectureAccount.OIDC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,14 +34,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                 context.Caller);
 
             CustomUser user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
-
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim("role", "dataEventRecords.admin"),
-                new Claim("role", "dataEventRecords.user"),
-                new Claim("username", user.UserName),
-                new Claim("email", user.Email)
-            };
+            List<Claim> claims = ClaimsHelpers.SetClaims("nick", user);
             context.IssuedClaims = claims;
         }
 
