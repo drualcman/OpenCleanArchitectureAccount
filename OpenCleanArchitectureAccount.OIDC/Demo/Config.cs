@@ -12,14 +12,16 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
     /// </summary>
     public static class Config
     {
+        const string Name = "apidemo";
+
         /// <summary>
         /// Definition for the scopes to protect the resources
         /// </summary>
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-                new ApiScope("apidemo.read", "Read Weather API"),
-                new ApiScope("apidemo.write", "Write Weather API"),
+                new ApiScope($"{Name}.read", "Read Weather API"),
+                new ApiScope($"{Name}.write", "Write Weather API"),
             };
 
         /// <summary>
@@ -41,9 +43,9 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {
-                new ApiResource("api://apidemo", "WEB API protected", new[] { "role" })
+                new ApiResource($"api://{Name}", "WEB API protected", new[] { "role" })
                 {
-                    Scopes = { "apidemo.read", "apidemo.write" },                    
+                    Scopes = { $"{Name}.read", $"{Name}.write" },                    
                 }
             };
 
@@ -57,7 +59,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                 {
                     ClientId = "ClientApp",
                     ClientSecrets = { new Secret("Secret".Sha256()) },
-                    AllowedScopes = { "apidemo.read", "apidemo.write" },
+                    AllowedScopes = { $"{Name}.read", $"{Name}.write" },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials
                 },
                  new Client
@@ -70,8 +72,8 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                          IdentityServerConstants.StandardScopes.Email, 
                          IdentityServerConstants.StandardScopes.Address,
                          "roles",
-                         "apidemo.read",
-                         "apidemo.write"  },
+                         $"{Name}.read",
+                         $"{Name}.write"  },
                     AllowedGrantTypes = GrantTypes.Code,
                     RedirectUris = {"https://localhost:44302/signin-oidc"},
                     PostLogoutRedirectUris= {"https://localhost:44302/signout-callback-oidc"},
@@ -92,8 +94,8 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                          IdentityServerConstants.StandardScopes.Email,
                          IdentityServerConstants.StandardScopes.Address,
                          "roles",
-                         "apidemo.read",
-                         "apidemo.write"  },
+                         $"{Name}.read",
+                         $"{Name}.write"  },
                     AllowedCorsOrigins = { 
                         "https://localhost:44303"
                      }
@@ -112,8 +114,8 @@ namespace OpenCleanArchitectureAccount.OIDC.Demo
                          IdentityServerConstants.StandardScopes.Email,
                          IdentityServerConstants.StandardScopes.Address,
                          "roles",
-                         "apidemo.read",
-                         "apidemo.write"  },
+                         $"{Name}.read",
+                         $"{Name}.write"  },
                     AllowedCorsOrigins = {
                         "https://localhost:44304"
                      }
