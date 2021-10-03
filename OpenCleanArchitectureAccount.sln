@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCleanArchitectureAccount.OIDC", "OpenCleanArchitectureAccount.OIDC\OpenCleanArchitectureAccount.OIDC.csproj", "{CDEA6E59-F8B8-4684-B368-752D9D4DCF0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCleanArchitectureAccount.Abstraction", "OpenCleanArchitectureAccount.Abstraction\OpenCleanArchitectureAccount.Abstraction.csproj", "{500604A1-D18E-4287-85EC-54CCE3D03D7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCleanArchitectureAccount.Abstraction", "OpenCleanArchitectureAccount.Abstraction\OpenCleanArchitectureAccount.Abstraction.csproj", "{500604A1-D18E-4287-85EC-54CCE3D03D7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCleanArchitectureAccount.Demo", "OpenCleanArchitectureAccount.Demo\OpenCleanArchitectureAccount.Demo.csproj", "{341F2F3B-5CAB-4923-83D6-BC08C43123F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{500604A1-D18E-4287-85EC-54CCE3D03D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{500604A1-D18E-4287-85EC-54CCE3D03D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{500604A1-D18E-4287-85EC-54CCE3D03D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341F2F3B-5CAB-4923-83D6-BC08C43123F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341F2F3B-5CAB-4923-83D6-BC08C43123F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341F2F3B-5CAB-4923-83D6-BC08C43123F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341F2F3B-5CAB-4923-83D6-BC08C43123F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

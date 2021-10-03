@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenCleanArchitectureAccount.OIDC.Demo
+namespace OpenCleanArchitectureAccount.Demo
 {
     public class CustomUser
     {

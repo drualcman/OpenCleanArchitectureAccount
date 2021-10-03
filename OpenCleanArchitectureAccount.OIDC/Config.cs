@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenCleanArchitectureAccount.OIDC.Demo
+namespace OpenCleanArchitectureAccount.OIDC
 {
     /// <summary>
     /// Class to define the resources

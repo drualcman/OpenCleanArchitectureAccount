@@ -2,6 +2,7 @@
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
+using OpenCleanArchitectureAccount.Demo;
 using OpenCleanArchitectureAccount.Interfaces;
 using OpenCleanArchitectureAccount.OIDC.Models;
 using System;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace OpenCleanArchitectureAccount.OIDC.Demo
+namespace OpenCleanArchitectureAccount.OIDC.Identity
 {
     public class CustomProfileService : IProfileService
     {

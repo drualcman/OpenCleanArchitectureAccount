@@ -1,12 +1,13 @@
 ﻿using IdentityModel;
 using IdentityServer4.Validation;
+using OpenCleanArchitectureAccount.Demo;
 using OpenCleanArchitectureAccount.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenCleanArchitectureAccount.OIDC.Demo
+namespace OpenCleanArchitectureAccount.OIDC.Identity
 {
     public class CustomResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
