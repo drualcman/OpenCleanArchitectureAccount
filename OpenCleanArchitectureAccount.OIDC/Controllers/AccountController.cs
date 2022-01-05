@@ -1,18 +1,19 @@
-﻿using IdentityModel;
+﻿using Identities.Entities;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OpenCleanArchitectureAccount.Abstraction.Interfaces;
 using OpenCleanArchitectureAccount.Interfaces;
 using OpenCleanArchitectureAccount.OIDC.Attributes;
-using OpenCleanArchitectureAccount.OIDC.Demo;
 using OpenCleanArchitectureAccount.OIDC.Extensions;
+using OpenCleanArchitectureAccount.OIDC.Identity;
 using OpenCleanArchitectureAccount.OIDC.Models;
 using OpenCleanArchitectureAccount.OIDC.ViewModels;
 using System;
@@ -32,14 +33,14 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IUserRepository<CustomUser> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         protected readonly ILogger Logger;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IAuthenticationSchemeProvider schemeProvider,
-            IUserRepository<CustomUser> userRepository, 
+            IUserRepository userRepository, 
             ILogger<CustomProfileService> logger)
         {
             Logger = logger;
@@ -106,7 +107,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
             if (ModelState.IsValid)
             {
                 // validate username/password against in-memory store
-                CustomUser user = await _userRepository.ValidateCredentials(model.Username, model.Password);
+                IUserLogin user = await _userRepository.ValidateCredentials(model);
                 if (user != null)
                 {
                     // only set explicit expiration here if user chooses "remember me". 
@@ -236,7 +237,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
+                    UserName = context?.LoginHint,
                 };
 
                 if (!local)
@@ -277,7 +278,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
                 AllowRememberLogin = AccountOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
                 ReturnUrl = returnUrl,
-                Username = context?.LoginHint,
+                UserName = context?.LoginHint,
                 ExternalProviders = providers.ToArray()
             };
         }
@@ -285,7 +286,7 @@ namespace OpenCleanArchitectureAccount.OIDC.Controllers
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             LoginViewModel vm = await BuildLoginViewModelAsync(model.ReturnUrl);
-            vm.Username = model.Username;
+            vm.UserName = model.UserName;
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }

@@ -6,16 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenCleanArchitectureAccount.OIDC.Identity
+namespace OpenCleanArchitectureAccount.Demo
 {
     public static class CustomIdentityServerBuilderExtensions
     {
-        public static IIdentityServerBuilder AddCustomUserStore(this IIdentityServerBuilder builder)
+        public static IServiceCollection AddUserRepository(this IServiceCollection services)
         {
-            builder.AddProfileService<CustomProfileService>();
-            builder.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
-            return builder;
+            return services;
         }
     }
 }

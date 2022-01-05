@@ -1,8 +1,9 @@
-﻿using IdentityServer4.Extensions;
+﻿using Identities.Entities;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
-using OpenCleanArchitectureAccount.Demo;
+using OpenCleanArchitectureAccount.Abstraction.Interfaces;
 using OpenCleanArchitectureAccount.Interfaces;
 using OpenCleanArchitectureAccount.OIDC.Models;
 using System;
@@ -16,9 +17,9 @@ namespace OpenCleanArchitectureAccount.OIDC.Identity
     public class CustomProfileService : IProfileService
     {
         protected readonly ILogger Logger;
-        protected readonly IUserRepository<CustomUser> _userRepository;
+        protected readonly IUserRepository _userRepository;
 
-        public CustomProfileService(IUserRepository<CustomUser> userRepository, ILogger<CustomProfileService> logger)
+        public CustomProfileService(IUserRepository userRepository, ILogger<CustomProfileService> logger)
         {
             _userRepository = userRepository;
             Logger = logger;
@@ -34,17 +35,15 @@ namespace OpenCleanArchitectureAccount.OIDC.Identity
                 context.RequestedClaimTypes,
                 context.Caller);
 
-            CustomUser user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
-            List<Claim> claims = ClaimsHelpers.SetClaims("nick", user);
+            IUserLogin user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
+            List<Claim> claims = ClaimsHelpers.SetClaims("email", user.Email);
             context.IssuedClaims = claims;
         }
 
-        public Task IsActiveAsync(IsActiveContext context)
+        public async Task IsActiveAsync(IsActiveContext context)
         {
-            var sub = context.Subject.GetSubjectId();
-            var user = _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
+            IUserLogin user = await _userRepository.FindBySubjectId(context.Subject.GetSubjectId());
             context.IsActive = user != null;
-            return Task.CompletedTask;
         }
     }
 }

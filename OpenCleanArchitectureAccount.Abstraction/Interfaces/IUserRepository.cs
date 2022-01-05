@@ -1,16 +1,17 @@
-﻿using System;
+﻿using OpenCleanArchitectureAccount.Abstraction.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OpenCleanArchitectureAccount.Interfaces
 {
-    public interface IUserRepository<TUser>
+    public interface IUserRepository
     {
-        Task<TUser> ValidateCredentials(string username, string password);
+        Task<IUserLogin> ValidateCredentials(ILogin login);
 
-        Task<TUser> FindBySubjectId(string subjectId);
+        Task<IUserLogin> FindBySubjectId(string subjectId);
 
-        Task<TUser> FindByUsername(string username);
+        Task<IUserLogin> FindByUsername(string username);
     }
 }

@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Users\DrUalcman\Source\Repos\drualcman\FlowerhubProjects\Common\Identity\Identities.csproj" />
     <ProjectReference Include="..\OpenCleanArchitectureAccount.Abstraction\OpenCleanArchitectureAccount.Abstraction.csproj" />
     <ProjectReference Include="..\OpenCleanArchitectureAccount.Demo\OpenCleanArchitectureAccount.Demo.csproj" />
   </ItemGroup>

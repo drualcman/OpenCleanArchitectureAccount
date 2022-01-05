@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OpenCleanArchitectureAccount.Abstraction.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OpenCleanArchitectureAccount.Demo
 {
-    public class CustomUser
+    public class CustomUser : IUserLogin
     {
         public string SubjectId { get; set; }
         public string Email { get; set; }
